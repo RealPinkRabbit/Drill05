@@ -23,6 +23,7 @@ def handle_events():
 
 # 손가락 위치 갱신 함수
 def replace_hand():
+    global hand_x, hand_y
     hand_x, hand_y = random.randint(0, 1280+1), random.randint(0, 1024+1)
 
 # 캐릭터 위치 갱신 함수
@@ -31,15 +32,16 @@ def replace_character():
     x1, y1 = x, y
     x2, y2 = hand_x, hand_y
 
-    x = int(0.7*x1 + 0.3*x2)
-    y = int(0.7*y1 + 0.3*y2)
+    x = int(0.8*x1 + 0.2*x2)
+    y = int(0.8*y1 + 0.2*y2)
 
 
 
 # 전역변수 선언 및 초기화
 running = True
 x, y = TUK_WIDTH // 2, TUK_HEIGHT // 2
-hand_x, hand_y = random.randint(0, 1280+1), random.randint(0, 1024+1)
+hand_x, hand_y = TUK_WIDTH // 2, TUK_HEIGHT // 2
+character_dir = 1
 frame = 0
 
 # 커서 숨기기
@@ -52,11 +54,15 @@ while running:
     TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
     if (x == hand_x) & (y == hand_y):
         replace_hand()
+        if (x <= hand_x):
+            character_dir = 1 # 오른쪽
+        else:
+            character_dir = 0 # 왼쪽
     else:
         replace_character()
     hand_arrow.draw(hand_x, hand_y)
-    character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
-    # print(x, y, hand_x, hand_y)
+    character.clip_draw(frame * 100, 100 * character_dir, 100, 100, x, y)
+    print(x, y, hand_x, hand_y)
 
 
     update_canvas()
