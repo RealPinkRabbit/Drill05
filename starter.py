@@ -35,16 +35,18 @@ def replace_character():
     y = line_y[line_y_index]
 
 def replace_line():
-    global x, y, hand_x, hand_y, line_x, line_y, line_x_index, line_y_index
+    global x, y, hand_x, hand_y, line_x, line_y, line_x_index, line_y_index, character_speed
     index_x = 0
     index_y = 0
-    for i in range(0, 100+1, 5):
+    for i in range(0, 100+1, character_speed):
         t = i/100
         line_x[index_x] = (1-t)*x + t*hand_x
         line_y[index_y] = (1-t)*y + t*hand_y
         index_x += 1
         index_y += 1
 
+    line_x[index_x] = hand_x
+    line_y[index_y] = hand_y
     line_x_index = 0
     line_y_index = 0
 
@@ -52,9 +54,10 @@ def replace_line():
 running = True
 x, y = TUK_WIDTH // 2, TUK_HEIGHT // 2
 hand_x, hand_y = TUK_WIDTH // 2, TUK_HEIGHT // 2
+character_speed = 3
 character_dir = 1
-line_x = [n for n in range(21)]
-line_y = [n for n in range(21)]
+line_x = [n for n in range(100//character_speed+1)]
+line_y = [n for n in range(100//character_speed+1)]
 line_x_index = 0
 line_y_index = 0
 frame = 0
@@ -78,7 +81,7 @@ while running:
         replace_character()
     hand_arrow.draw(hand_x, hand_y)
     character.clip_draw(frame * 100, 100 * character_dir, 100, 100, x, y)
-    print(x, y, hand_x, hand_y)
+    print(len(line_x), line_x_index)
 
 
     update_canvas()
