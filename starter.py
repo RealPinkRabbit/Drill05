@@ -20,11 +20,21 @@ def handle_events():
             running = False
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
-    pass
 
 # 손가락 위치 갱신 함수
 def replace_hand():
     hand_x, hand_y = random.randint(0, 1280+1), random.randint(0, 1024+1)
+
+# 캐릭터 위치 갱신 함수
+def replace_character():
+    global x, y, hand_x, hand_y
+    x1, y1 = x, y
+    x2, y2 = hand_x, hand_y
+
+    x = int(0.7*x1 + 0.3*x2)
+    y = int(0.7*y1 + 0.3*y2)
+
+
 
 # 전역변수 선언 및 초기화
 running = True
@@ -43,9 +53,10 @@ while running:
     if (x == hand_x) & (y == hand_y):
         replace_hand()
     else:
-        pass # x, y가 손 있는 곳에 가깝도록 한 30% 지점까지 이동하기
+        replace_character()
     hand_arrow.draw(hand_x, hand_y)
     character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
+    # print(x, y, hand_x, hand_y)
 
 
     update_canvas()
