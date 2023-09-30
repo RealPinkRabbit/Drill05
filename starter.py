@@ -28,20 +28,35 @@ def replace_hand():
 
 # 캐릭터 위치 갱신 함수
 def replace_character():
-    global x, y, hand_x, hand_y
-    x1, y1 = x, y
-    x2, y2 = hand_x, hand_y
+    global x, y, line_x, line_y, line_x_index, line_y_index
+    line_x_index += 1
+    line_y_index += 1
+    x = line_x[line_x_index]
+    y = line_y[line_y_index]
 
-    x = int(0.8*x1 + 0.2*x2)
-    y = int(0.8*y1 + 0.2*y2)
+def replace_line():
+    global x, y, hand_x, hand_y, line_x, line_y, line_x_index, line_y_index
+    index_x = 0
+    index_y = 0
+    for i in range(0, 100+1, 5):
+        t = i/100
+        line_x[index_x] = (1-t)*x + t*hand_x
+        line_y[index_y] = (1-t)*y + t*hand_y
+        index_x += 1
+        index_y += 1
 
-
+    line_x_index = 0
+    line_y_index = 0
 
 # 전역변수 선언 및 초기화
 running = True
 x, y = TUK_WIDTH // 2, TUK_HEIGHT // 2
 hand_x, hand_y = TUK_WIDTH // 2, TUK_HEIGHT // 2
 character_dir = 1
+line_x = [n for n in range(21)]
+line_y = [n for n in range(21)]
+line_x_index = 0
+line_y_index = 0
 frame = 0
 
 # 커서 숨기기
@@ -54,6 +69,7 @@ while running:
     TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
     if (x == hand_x) & (y == hand_y):
         replace_hand()
+        replace_line()
         if (x <= hand_x):
             character_dir = 1 # 오른쪽
         else:
