@@ -14,7 +14,6 @@ hand_arrow = load_image('hand_arrow.png')
 # 키보드 입력 감지 함수
 def handle_events():
     global running
-    global x, y
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -23,13 +22,17 @@ def handle_events():
             running = False
     pass
 
-def create_hand():
-    hand_arrow.draw(random.randint(0,1280+1), random.randint(0, 1024+1))
+# 손가락 위치 갱신 함수
+def replace_hand():
+    hand_x, hand_y = random.randint(0, 1280+1), random.randint(0, 1024+1)
 
-# 전역변수 선언
+# 전역변수 선언 및 초기화
 running = True
 x, y = TUK_WIDTH // 2, TUK_HEIGHT // 2
+hand_x, hand_y = random.randint(0, 1280+1), random.randint(0, 1024+1)
 frame = 0
+
+# 커서 숨기기
 hide_cursor()
 
 # 메인함수
@@ -37,8 +40,13 @@ while running:
     clear_canvas()
 
     TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
-    create_hand()
+    if (x == hand_x) & (y == hand_y):
+        replace_hand()
+    else:
+        pass # x, y가 손 있는 곳에 가깝도록 한 30% 지점까지 이동하기
+    hand_arrow.draw(hand_x, hand_y)
     character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
+
 
     update_canvas()
     frame = (frame + 1) % 8
