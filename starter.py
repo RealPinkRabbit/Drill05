@@ -34,6 +34,7 @@ def replace_character():
     x = line_x[line_x_index]
     y = line_y[line_y_index]
 
+# 선을 그리기 위한 점 집합(리스트) 갱신 함수
 def replace_line():
     global x, y, hand_x, hand_y, line_x, line_y, line_x_index, line_y_index
     index_x = 0
@@ -54,8 +55,8 @@ def replace_line():
 running = True
 x, y = TUK_WIDTH // 2, TUK_HEIGHT // 2
 hand_x, hand_y = TUK_WIDTH // 2, TUK_HEIGHT // 2
-character_speed = 5
-character_dir = 1
+character_speed = 5 # 0~100
+character_dir = 1 # 0, 1
 line_x = [n for n in range(100//character_speed + 1)]
 line_y = [n for n in range(100//character_speed + 1)]
 line_x_index = 0
@@ -68,6 +69,7 @@ hide_cursor()
 # 메인함수
 while running:
     clear_canvas()
+    handle_events()
 
     TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
     if (x == hand_x) & (y == hand_y):
@@ -83,12 +85,12 @@ while running:
     character.clip_draw(frame * 100, 100 * character_dir, 100, 100, x, y)
     #print(x, y, hand_x, hand_y)
 
-
-
     update_canvas()
+
     frame = (frame + 1) % 8
-    handle_events()
     delay(0.05)
 
 # 캔버스 닫기
 close_canvas()
+
+# Done
