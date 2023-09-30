@@ -24,7 +24,7 @@ def handle_events():
 # 손가락 위치 갱신 함수
 def replace_hand():
     global hand_x, hand_y
-    hand_x, hand_y = random.randint(0, 1280+1), random.randint(0, 1024+1)
+    hand_x, hand_y = random.randint(0, TUK_WIDTH+1), random.randint(0, TUK_HEIGHT+1)
 
 # 캐릭터 위치 갱신 함수
 def replace_character():
